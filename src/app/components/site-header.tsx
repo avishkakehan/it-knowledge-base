@@ -39,9 +39,9 @@ export function SiteHeader() {
           <Image
             src="/SterlingSteelsLogo.png"
             alt="Sterling Steels logo"
-            width={119}
-            height={70}
-            className="h-[70px] w-auto object-contain"
+            width={102}
+            height={60}
+            className="h-[60px] w-auto object-contain"
             priority
           />
           <span>
