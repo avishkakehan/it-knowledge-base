@@ -54,7 +54,7 @@ export default function Home() {
             </h2>
 
             <p className="mt-5 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
-              Simple, step-by-step guides to help you solve common IT problems
+              Step-by-step guides to help you solve common IT problems
               and get back to work.
             </p>
 
