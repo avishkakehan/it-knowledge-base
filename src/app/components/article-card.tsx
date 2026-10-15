@@ -18,23 +18,23 @@ export function ArticleCard({ article, onOpen }: ArticleCardProps) {
       tabIndex={0}
       role="button"
       aria-label={`Open guide: ${article.title}`}
-      className="flex w-full cursor-pointer flex-col rounded-2xl border border-slate-200 bg-white p-6 text-left transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 bg-white p-6 text-left transition hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
     >
-      <p className="text-xs font-bold tracking-wider text-blue-600">
+      <p className="text-xs font-bold tracking-wider text-brand">
         {article.category}
       </p>
-      <h3 className="mt-4 text-lg font-bold">{article.title}</h3>
-      <p className="mt-3 flex-1 text-sm leading-6 text-slate-500">
+      <h3 className="mt-3 text-lg font-bold text-slate-900">{article.title}</h3>
+      <p className="mt-2 flex-1 text-sm leading-6 text-slate-600">
         {article.description}
       </p>
 
-      <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+      <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
         <span className="text-xs text-slate-500">{article.time}</span>
-        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+        <span className="rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
           {article.level}
         </span>
       </div>
-      <span className="mt-4 text-sm font-semibold text-blue-600">
+      <span className="mt-4 text-sm font-semibold text-brand">
         Open guide <span aria-hidden="true">→</span>
       </span>
     </article>

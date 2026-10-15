@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArticleCard } from "../../components/article-card";
 import { ArticleDetail } from "../../components/article-detail";
+import { SiteFooter } from "../../components/site-footer";
+import { SiteHeader } from "../../components/site-header";
 import {
   fetchArticlesByCategory,
   filterArticles,
@@ -66,21 +68,21 @@ export default function CategoryPage() {
 
   if (!category) {
     return (
-      <main className="min-h-screen bg-[#f6f8fc] px-5 py-10 text-slate-800 sm:px-8">
-        <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-8 text-center sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">
+      <main className="min-h-screen bg-paper px-5 py-10 text-slate-800 sm:px-8">
+        <div className="mx-auto max-w-3xl rounded-md border border-slate-200 bg-white p-8 text-center sm:p-10">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand">
             Category not found
           </p>
-          <h1 className="mt-3 text-2xl font-bold sm:text-3xl">
+          <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             We couldn&apos;t find that category.
           </h1>
-          <p className="mt-3 leading-7 text-slate-500">
+          <p className="mt-3 leading-7 text-slate-600">
             The link may be outdated. Browse the Knowledge Hub to find the
             guide you need.
           </p>
           <Link
             href="/"
-            className="mt-6 inline-block rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
+            className="mt-6 inline-block rounded bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             ← Back to Knowledge Hub
           </Link>
@@ -103,52 +105,32 @@ export default function CategoryPage() {
   const filteredArticles = filterArticles(articles, search);
 
   return (
-    <main className="min-h-screen bg-[#f6f8fc] text-slate-800">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-xl font-bold text-white">
-              IT
-            </div>
-            <div>
-              <p className="text-lg font-bold tracking-tight">
-                IT Knowledge Hub
-              </p>
-              <p className="text-xs text-slate-500">
-                STERLING STEELS . IT SUPPORT
-              </p>
-            </div>
-          </Link>
-
-          <span className="hidden rounded-full bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 sm:block">
-            Self-Service Support
-          </span>
-        </div>
-      </header>
+    <main className="min-h-screen bg-white text-slate-800">
+      <SiteHeader />
 
       <section className="mx-auto max-w-7xl px-5 pt-8 sm:px-8">
         <Link
           href="/"
-          className="inline-block rounded-lg px-4 py-2 font-semibold text-blue-600 hover:bg-blue-50"
+          className="inline-block rounded px-3 py-2 text-sm font-semibold text-brand hover:bg-red-50"
         >
           ← Back to Knowledge Hub
         </Link>
 
-        <p className="mt-6 text-sm font-semibold uppercase tracking-widest text-blue-600">
+        <p className="mt-6 text-xs font-bold uppercase tracking-widest text-brand">
           {category.dbCategory}
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
           {category.title}
         </h1>
-        <p className="mt-2 max-w-2xl leading-7 text-slate-500">
+        <p className="mt-2 max-w-2xl leading-7 text-slate-600">
           {category.description}
         </p>
 
         <form
           onSubmit={(event) => event.preventDefault()}
-          className="mt-6 flex max-w-2xl items-center gap-3 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm"
+          className="mt-6 flex max-w-2xl items-center gap-2 rounded-md border border-slate-300 bg-white p-1.5"
         >
-          <span className="pl-3 text-xl text-slate-400" aria-hidden="true">
+          <span className="pl-3 text-lg text-slate-400" aria-hidden="true">
             ⌕
           </span>
           <input
@@ -158,11 +140,11 @@ export default function CategoryPage() {
             onChange={(event) => setSearch(event.target.value)}
             placeholder={`Search ${category.title} guides...`}
             aria-label={`Search ${category.title} guides`}
-            className="min-w-0 flex-1 bg-transparent py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:text-base"
+            className="min-w-0 flex-1 bg-transparent py-2.5 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:text-base"
           />
           <button
             type="submit"
-            className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+            className="rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
           >
             Search
           </button>
@@ -179,7 +161,7 @@ export default function CategoryPage() {
           <button
             type="button"
             onClick={() => setSearch("")}
-            className="mt-2 rounded-lg px-4 py-2 text-sm font-semibold text-blue-600 hover:bg-blue-50"
+            className="mt-2 rounded px-3 py-2 text-sm font-semibold text-brand hover:bg-red-50"
           >
             Clear search ✕
           </button>
@@ -187,16 +169,16 @@ export default function CategoryPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-3">
           {loading ? (
-            <div className="col-span-full rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-500">
-              <p className="font-semibold">Loading guides…</p>
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
+              <p className="font-semibold text-slate-700">Loading guides…</p>
               <p className="mt-2 text-sm">
                 Fetching {category.title} guides from Supabase.
               </p>
             </div>
           ) : fetchError ? (
-            <div className="col-span-full rounded-xl border border-red-200 bg-red-50 p-8 text-center">
+            <div className="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center">
               <p className="font-semibold text-red-800">
                 Could not load guides.
               </p>
@@ -206,14 +188,14 @@ export default function CategoryPage() {
               <button
                 type="button"
                 onClick={loadArticles}
-                className="mt-4 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+                className="mt-4 rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
               >
                 Try again
               </button>
             </div>
           ) : articles.length === 0 ? (
-            <div className="col-span-full rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-500">
-              <p className="text-lg font-bold text-slate-800">
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
+              <p className="text-lg font-bold text-slate-900">
                 No guides in {category.title} yet.
               </p>
               <p className="mx-auto mt-2 max-w-md text-sm leading-6">
@@ -222,18 +204,18 @@ export default function CategoryPage() {
               </p>
               <Link
                 href="/"
-                className="mt-4 inline-block rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+                className="mt-4 inline-block rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
               >
                 ← Back to Knowledge Hub
               </Link>
             </div>
           ) : filteredArticles.length === 0 ? (
-            <div className="col-span-full rounded-xl border border-slate-200 bg-white p-8 text-center text-slate-500">
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
               <p>No matching articles in {category.title}. Try another keyword.</p>
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="mt-4 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+                className="mt-4 rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
               >
                 Clear search
               </button>
@@ -250,12 +232,7 @@ export default function CategoryPage() {
         </div>
       </section>
 
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-7 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p>IT Knowledge Hub · Sterling Steels</p>
-          <p>Learn, troubleshoot and work smarter.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
