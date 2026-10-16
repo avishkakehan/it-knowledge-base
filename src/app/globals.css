@@ -24,3 +24,50 @@ body {
   color: #191c20;
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none;
+  }
+  .article-card,
+  .article-card *,
+  .article-card::before,
+  .article-card::after {
+    transition-duration: 0.01ms !important;
+    transition-property: none !important;
+  }
+  .article-card:hover,
+  .article-card:focus-visible {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .article-card-arrow {
+    transform: none !important;
+  }
+  .print-article img {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media print {
+  .print-article {
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+  .print-article article {
+    border: none !important;
+    padding: 0 !important;
+  }
+  .print-article a {
+    text-decoration: none !important;
+    color: #191c20 !important;
+  }
+  .print-article li {
+    break-inside: avoid;
+  }
+  .print-article pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}

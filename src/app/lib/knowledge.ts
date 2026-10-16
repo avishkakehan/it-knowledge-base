@@ -1,8 +1,30 @@
 import { supabase } from "./supabase";
 
+export type StepCalloutKind = "tip" | "warning" | "important";
+
+export type StepCallout = {
+  kind: StepCalloutKind;
+  text: string;
+};
+
 export type ArticleStep = {
   title: string;
   description: string;
+  /** Optional screenshot URL. Absent on all existing articles. */
+  image?: string;
+  /** Alt text for the screenshot. Falls back to a generated label. */
+  imageAlt?: string;
+  /** Optional caption shown below the screenshot. */
+  caption?: string;
+  /**
+   * Genuine command snippet only. Rendered verbatim with a copy button.
+   * Never inferred from description text.
+   */
+  command?: string;
+  /** Optional plain-language explanation of what the command does. */
+  commandExplanation?: string;
+  /** Optional Tip / Warning / Important callout for the step. */
+  callout?: StepCallout;
 };
 
 export type Article = {
@@ -97,6 +119,51 @@ type ArticleRow = {
   steps: ArticleStep[] | null;
 };
 
+function normalizeStep(item: unknown): ArticleStep | null {
+  if (!item || typeof item !== "object") return null;
+  const raw = item as Record<string, unknown>;
+  const step: ArticleStep = {
+    title: typeof raw.title === "string" ? raw.title : "",
+    description:
+      typeof raw.description === "string" ? raw.description : "",
+  };
+
+  if (typeof raw.image === "string" && raw.image.trim() !== "") {
+    step.image = raw.image.trim();
+  }
+  if (typeof raw.imageAlt === "string" && raw.imageAlt.trim() !== "") {
+    step.imageAlt = raw.imageAlt;
+  }
+  if (typeof raw.caption === "string" && raw.caption.trim() !== "") {
+    step.caption = raw.caption;
+  }
+  if (typeof raw.command === "string" && raw.command.trim() !== "") {
+    step.command = raw.command;
+  }
+  if (
+    typeof raw.commandExplanation === "string" &&
+    raw.commandExplanation.trim() !== ""
+  ) {
+    step.commandExplanation = raw.commandExplanation;
+  }
+
+  const rawCallout = raw.callout;
+  if (rawCallout && typeof rawCallout === "object") {
+    const callout = rawCallout as Record<string, unknown>;
+    const kind = callout.kind;
+    const text = callout.text;
+    if (
+      (kind === "tip" || kind === "warning" || kind === "important") &&
+      typeof text === "string" &&
+      text.trim() !== ""
+    ) {
+      step.callout = { kind, text };
+    }
+  }
+
+  return step;
+}
+
 function normalizeRow(row: ArticleRow): Article {
   return {
     category: row.category ?? "",
@@ -104,7 +171,11 @@ function normalizeRow(row: ArticleRow): Article {
     description: row.description ?? "",
     time: row.time ?? "",
     level: row.level ?? "",
-    steps: Array.isArray(row.steps) ? row.steps : [],
+    steps: Array.isArray(row.steps)
+      ? row.steps
+          .map(normalizeStep)
+          .filter((step): step is ArticleStep => step !== null)
+      : [],
   };
 }
 
