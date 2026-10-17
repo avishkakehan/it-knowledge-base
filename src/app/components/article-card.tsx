@@ -18,19 +18,19 @@ export function ArticleCard({ article, onOpen }: ArticleCardProps) {
       tabIndex={0}
       role="button"
       aria-label={`Open guide: ${article.title}`}
-      className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 bg-white p-6 text-left transition hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+      className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 bg-white p-6 text-left transition hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
     >
       <p className="text-xs font-bold tracking-wider text-brand">
         {article.category}
       </p>
-      <h3 className="mt-3 text-lg font-bold text-slate-900">{article.title}</h3>
-      <p className="mt-2 flex-1 text-sm leading-6 text-slate-600">
+      <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">{article.title}</h3>
+      <p className="mt-2 flex-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
         {article.description}
       </p>
 
-      <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-        <span className="text-xs text-slate-500">{article.time}</span>
-        <span className="rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+      <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-700">
+        <span className="text-xs text-slate-500 dark:text-slate-400">{article.time}</span>
+        <span className="rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 dark:bg-slate-700 dark:text-slate-300">
           {article.level}
         </span>
       </div>

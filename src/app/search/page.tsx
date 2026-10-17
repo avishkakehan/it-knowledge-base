@@ -80,22 +80,25 @@ function SearchResults() {
   const filteredArticles = filterArticles(articles, initialQuery);
 
   return (
-    <main className="min-h-screen bg-white text-slate-800">
+    <main className="min-h-screen bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-200">
       <SiteHeader />
 
       <section className="mx-auto max-w-7xl px-5 pt-8 sm:px-8">
         <Link
           href="/"
-          className="inline-block rounded px-3 py-2 text-sm font-semibold text-brand hover:bg-red-50"
+          className="inline-flex items-center gap-1.5 rounded px-3 py-2 text-sm font-semibold text-brand hover:bg-red-50 dark:hover:bg-red-900/20"
         >
-          ← Back to Knowledge Hub
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back
         </Link>
 
         <p className="mt-6 text-xs font-bold uppercase tracking-widest text-brand">
           Search results
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-          {query === "" ? "Search guides" : `Results for “${query}”`}
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+          {query === "" ? "Search guides" : `Results for "${query}"`}
         </h1>
 
         <form
@@ -104,7 +107,7 @@ function SearchResults() {
             const next = input.trim();
             router.push(next === "" ? "/search" : `/search?q=${encodeURIComponent(next)}`);
           }}
-          className="mt-6 flex max-w-2xl items-center gap-2 rounded-md border border-slate-300 bg-white p-1.5"
+          className="mt-6 flex max-w-2xl items-center gap-2 rounded-md border border-slate-300 bg-white p-1.5 dark:border-slate-700 dark:bg-slate-800"
         >
           <span className="pl-3 text-lg text-slate-400" aria-hidden="true">
             ⌕
@@ -116,7 +119,7 @@ function SearchResults() {
             onChange={(event) => setInput(event.target.value)}
             placeholder="Search Outlook, printer, Wi-Fi..."
             aria-label="Search guides"
-            className="min-w-0 flex-1 bg-transparent py-2.5 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:text-base"
+            className="min-w-0 flex-1 bg-transparent py-2.5 text-sm text-slate-800 outline-none placeholder:text-slate-400 sm:text-base dark:text-slate-200"
           />
           <button
             type="submit"
@@ -126,30 +129,30 @@ function SearchResults() {
           </button>
         </form>
 
-        <p className="mt-4 text-sm text-slate-500">
+        <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
           {loading
             ? "Loading guides…"
             : query === ""
               ? "Type a keyword above to search all published guides."
-              : `Showing ${filteredArticles.length} of ${articles.length} guides matching “${query}”.`}
+              : `Showing ${filteredArticles.length} of ${articles.length} guides matching "${query}".`}
         </p>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
         <div className="grid gap-4 lg:grid-cols-3">
           {loading ? (
-            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
-              <p className="font-semibold text-slate-700">Loading guides…</p>
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
+              <p className="font-semibold text-slate-700 dark:text-slate-300">Loading guides…</p>
               <p className="mt-2 text-sm">
                 Searching published guides in Supabase.
               </p>
             </div>
           ) : fetchError ? (
-            <div className="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center">
-              <p className="font-semibold text-red-800">
+            <div className="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center dark:border-red-900/50 dark:bg-red-950/30">
+              <p className="font-semibold text-red-800 dark:text-red-400">
                 Could not load guides.
               </p>
-              <p className="mt-2 text-sm leading-6 text-red-700">
+              <p className="mt-2 text-sm leading-6 text-red-700 dark:text-red-300">
                 {fetchError}
               </p>
               <button
@@ -161,25 +164,31 @@ function SearchResults() {
               </button>
             </div>
           ) : query === "" ? (
-            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
               <p>Enter a keyword above to find troubleshooting guides.</p>
               <Link
                 href="/"
-                className="mt-4 inline-block rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+                className="mt-4 inline-flex items-center gap-1.5 rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
               >
-                ← Back to Knowledge Hub
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+                Back
               </Link>
             </div>
           ) : filteredArticles.length === 0 ? (
-            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
               <p>
-                No matching articles for “{query}”. Try another keyword.
+                No matching articles for "{query}". Try another keyword.
               </p>
               <Link
                 href="/"
-                className="mt-4 inline-block rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+                className="mt-4 inline-flex items-center gap-1.5 rounded bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
               >
-                ← Back to Knowledge Hub
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+                Back
               </Link>
             </div>
           ) : (
