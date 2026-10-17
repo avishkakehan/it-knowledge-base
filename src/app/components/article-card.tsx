@@ -18,7 +18,7 @@ export function ArticleCard({ article, onOpen }: ArticleCardProps) {
       tabIndex={0}
       role="button"
       aria-label={`Open guide: ${article.title}`}
-      className="article-card group flex w-full cursor-pointer flex-col rounded-md border border-slate-200 bg-white p-6 text-left transition-all duration-200 ease-out hover:-translate-y-1 hover:border-brand/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
+      className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 bg-white p-6 text-left transition hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
     >
       <p className="text-xs font-bold tracking-wider text-brand">
         {article.category}
@@ -34,14 +34,8 @@ export function ArticleCard({ article, onOpen }: ArticleCardProps) {
           {article.level}
         </span>
       </div>
-      <span className="mt-4 text-sm font-semibold text-brand transition-colors group-hover:text-brand-dark">
-        Open guide{" "}
-        <span
-          aria-hidden="true"
-          className="article-card-arrow inline-block transition-transform duration-200 ease-out group-hover:translate-x-0.5"
-        >
-          →
-        </span>
+      <span className="mt-4 text-sm font-semibold text-brand">
+        Open guide <span aria-hidden="true">→</span>
       </span>
     </article>
   );

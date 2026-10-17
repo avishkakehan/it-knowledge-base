@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { ArticleCard } from "../components/article-card";
-import { ArticleCardSkeletonGrid } from "../components/article-card-skeleton";
 import { ArticleDetail } from "../components/article-detail";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
@@ -137,13 +136,14 @@ function SearchResults() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
-        <div
-          className="grid gap-4 lg:grid-cols-3"
-          aria-busy={loading}
-          aria-live="polite"
-        >
+        <div className="grid gap-4 lg:grid-cols-3">
           {loading ? (
-            <ArticleCardSkeletonGrid count={6} />
+            <div className="col-span-full rounded-md border border-slate-200 bg-white p-8 text-center text-slate-500">
+              <p className="font-semibold text-slate-700">Loading guides…</p>
+              <p className="mt-2 text-sm">
+                Searching published guides in Supabase.
+              </p>
+            </div>
           ) : fetchError ? (
             <div className="col-span-full rounded-md border border-red-200 bg-red-50 p-8 text-center">
               <p className="font-semibold text-red-800">
