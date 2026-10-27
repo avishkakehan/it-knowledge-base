@@ -3,6 +3,12 @@ import { supabase } from "./supabase";
 export type ArticleStep = {
   title: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
+  caption?: string;
+  command?: string;
+  commandExplanation?: string;
+  callout?: string;
 };
 
 export type Article = {
@@ -104,7 +110,18 @@ function normalizeRow(row: ArticleRow): Article {
     description: row.description ?? "",
     time: row.time ?? "",
     level: row.level ?? "",
-    steps: Array.isArray(row.steps) ? row.steps : [],
+    steps: Array.isArray(row.steps)
+      ? row.steps.map((step) => ({
+          title: step?.title ?? "",
+          description: step?.description ?? "",
+          image: step?.image ?? undefined,
+          imageAlt: step?.imageAlt ?? undefined,
+          caption: step?.caption ?? undefined,
+          command: step?.command ?? undefined,
+          commandExplanation: step?.commandExplanation ?? undefined,
+          callout: step?.callout ?? undefined,
+        }))
+      : [],
   };
 }
 

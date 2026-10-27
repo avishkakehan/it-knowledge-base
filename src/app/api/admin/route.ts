@@ -4,6 +4,15 @@ import { createClient } from "../../lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 
+function isValidHttpUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 async function getAuthorizedAdmin() {
   const supabase = await createClient();
 
@@ -79,14 +88,25 @@ export async function POST(request: Request) {
   if (
     !Array.isArray(input.steps) ||
     input.steps.length === 0 ||
-    !input.steps.every(
-      (step) =>
-        step !== null &&
-        typeof step === "object" &&
-        !Array.isArray(step) &&
-        typeof (step as Record<string, unknown>).title === "string" &&
-        typeof (step as Record<string, unknown>).description === "string"
-    )
+    !input.steps.every((step) => {
+      if (step === null || typeof step !== "object" || Array.isArray(step)) {
+        return false;
+      }
+      const s = step as Record<string, unknown>;
+      if (typeof s.title !== "string" || typeof s.description !== "string") {
+        return false;
+      }
+      const optionalFields = ["image", "imageAlt", "caption", "command", "commandExplanation", "callout"];
+      for (const key of optionalFields) {
+        const value = s[key];
+        if (value === undefined) continue;
+        if (typeof value !== "string") return false;
+        if (key === "image" && (value as string).trim() !== "") {
+          if (!isValidHttpUrl((value as string).trim())) return false;
+        }
+      }
+      return true;
+    })
   ) {
     return NextResponse.json({ error: "At least one valid troubleshooting step is required." }, { status: 400 });
   }
@@ -186,19 +206,29 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Invalid publication status." }, { status: 400 });
   }
 
-  if (
-    "steps" in updates &&
-    (!Array.isArray(updates.steps) ||
-      !updates.steps.every(
-        (step) =>
-          step !== null &&
-          typeof step === "object" &&
-          !Array.isArray(step) &&
-          typeof step.title === "string" &&
-          typeof step.description === "string"
-      ))
-  ) {
-    return NextResponse.json({ error: "Invalid article steps." }, { status: 400 });
+  if ("steps" in updates) {
+    const steps = updates.steps;
+    if (!Array.isArray(steps) || !steps.every((step) => {
+      if (step === null || typeof step !== "object" || Array.isArray(step)) {
+        return false;
+      }
+      const s = step as Record<string, unknown>;
+      if (typeof s.title !== "string" || typeof s.description !== "string") {
+        return false;
+      }
+      const optionalFields = ["image", "imageAlt", "caption", "command", "commandExplanation", "callout"];
+      for (const key of optionalFields) {
+        const value = s[key];
+        if (value === undefined) continue;
+        if (typeof value !== "string") return false;
+        if (key === "image" && (value as string).trim() !== "") {
+          if (!isValidHttpUrl((value as string).trim())) return false;
+        }
+      }
+      return true;
+    })) {
+      return NextResponse.json({ error: "Invalid article steps." }, { status: 400 });
+    }
   }
 
   const { data, error } = await supabase

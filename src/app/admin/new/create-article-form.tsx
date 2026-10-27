@@ -7,6 +7,12 @@ import { useState } from "react";
 type Step = {
   title: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
+  caption?: string;
+  command?: string;
+  commandExplanation?: string;
+  callout?: string;
 };
 
 const CATEGORIES = [
@@ -24,7 +30,18 @@ export default function CreateArticleForm() {
   const [description, setDescription] = useState("");
   const [time, setTime] = useState("");
   const [level, setLevel] = useState("");
-  const [steps, setSteps] = useState<Step[]>([{ title: "", description: "" }]);
+  const [steps, setSteps] = useState<Step[]>([
+    {
+      title: "",
+      description: "",
+      image: "",
+      imageAlt: "",
+      caption: "",
+      command: "",
+      commandExplanation: "",
+      callout: "",
+    },
+  ]);
   const [published, setPublished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -37,7 +54,19 @@ export default function CreateArticleForm() {
   }
 
   function addStep() {
-    setSteps((prev) => [...prev, { title: "", description: "" }]);
+    setSteps((prev) => [
+      ...prev,
+      {
+        title: "",
+        description: "",
+        image: "",
+        imageAlt: "",
+        caption: "",
+        command: "",
+        commandExplanation: "",
+        callout: "",
+      },
+    ]);
   }
 
   function removeStep(index: number) {
@@ -50,15 +79,18 @@ export default function CreateArticleForm() {
     setError("");
     setSuccess("");
 
-    const cleanedSteps = steps.filter(
-      (step) => step.title.trim() || step.description.trim()
-    );
-
-    if (!title.trim()) {
-      setError("Title is required.");
-      setSaving(false);
-      return;
-    }
+    const cleanedSteps = steps
+      .filter((step) => step.title.trim() || step.description.trim())
+      .map((step) => ({
+        title: step.title,
+        description: step.description,
+        image: step.image ?? "",
+        imageAlt: step.imageAlt ?? "",
+        caption: step.caption ?? "",
+        command: step.command ?? "",
+        commandExplanation: step.commandExplanation ?? "",
+        callout: step.callout ?? "",
+      }));
 
     if (cleanedSteps.length === 0) {
       setError("At least one troubleshooting step is required.");
@@ -224,6 +256,48 @@ export default function CreateArticleForm() {
               onChange={(e) => updateStep(index, "description", e.target.value)}
               placeholder="Step description"
               rows={2}
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+            <input
+              type="text"
+              value={step.image ?? ""}
+              onChange={(e) => updateStep(index, "image", e.target.value)}
+              placeholder="Image URL (optional)"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+            <input
+              type="text"
+              value={step.imageAlt ?? ""}
+              onChange={(e) => updateStep(index, "imageAlt", e.target.value)}
+              placeholder="Image alt text (optional)"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+            <input
+              type="text"
+              value={step.caption ?? ""}
+              onChange={(e) => updateStep(index, "caption", e.target.value)}
+              placeholder="Caption (optional)"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+            <input
+              type="text"
+              value={step.command ?? ""}
+              onChange={(e) => updateStep(index, "command", e.target.value)}
+              placeholder="Command (optional)"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+            <input
+              type="text"
+              value={step.commandExplanation ?? ""}
+              onChange={(e) => updateStep(index, "commandExplanation", e.target.value)}
+              placeholder="Command explanation (optional)"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+            <input
+              type="text"
+              value={step.callout ?? ""}
+              onChange={(e) => updateStep(index, "callout", e.target.value)}
+              placeholder="Callout (optional, e.g. Warning / Tip)"
               className="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
             />
           </div>
